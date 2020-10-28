@@ -2,11 +2,68 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Ropa+Sans&display=swap"
+      rel="stylesheet"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
   <body>
+    <div class="container">
+      <header>
+        <h1>STAR WARS CATALOG</h1>
+      </header>
+      <main>
+        <section class="card character-card">
+          <h4>Characters</h4>
+          <ul class="character-list">
+            <li>Luke Skywalker</li>
+            <li>Luke Skywalker</li>
+            <li>Luke Skywalker</li>
+            <li>Luke Skywalker</li>
+            <li>Luke Skywalker</li>
+            <li>Luke Skywalker</li>
+          </ul>
+          <div class="pag-nav">
+            <button class="btn left-btn"><</button>
+            <p>
+              <span class="current-page">1</span>/<span class="total-pages"
+                >8</span
+              >
+            </p>
+            <button class="btn right-btn">></button>
+          </div>
+        </section>
+        <section class="card details-card">
+          <h4>Details</h4>
+          <section class="character-details">
+            <ul class="character-details__list">
+              <li class="details-name">Luke Skywalker</li>
+              <li>Height</li>
+              <li>Mass</li>
+              <li>Hair color</li>
+              <li>Skin color</li>
+              <li>Eye color</li>
+              <li>Birth year</li>
+              <li>Gender</li>
+            </ul>
+          </section>
+          <section class="planet-details">
+            <ul class="planet-details__list">
+              <li class="details-name">Tattooine</li>
+              <li>Rotation period</li>
+              <li>Orbital period</li>
+              <li>Diameter</li>
+              <li>Climate</li>
+              <li>Gravity</li>
+              <li>Terrain</li>
+            </ul>
+          </section>
+        </section>
+      </main>
+    </div>
     <script src="js/main.js"></script>
   </body>
 </html>

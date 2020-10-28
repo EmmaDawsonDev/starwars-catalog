@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: #ffd600;
+  font-family: 'Ropa Sans', sans-serif;
+}
+
+.container {
+  background-color: #424242;
+  height: 100vh;
+  max-width: 1000px;
+  margin: auto;
+}
+
+header {
+  background-image: url('../assets/sw-header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 3rem;
+  letter-spacing: 0.15em;
+  max-width: 40%;
+  padding: 4rem 3rem;
+}
+
+main {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.card {
+  background-color: #c4c4c4;
+  display: flex;
+  flex-direction: column;
+  width: 22rem;
+  height: 28rem;
+  margin-top: -2rem;
+}
+
+.card h4 {
+  letter-spacing: 0.2em;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.character-card h4 {
+  background-color: #535556;
+}
+
+.character-card li {
+  letter-spacing: 0.15em;
+  padding: 10px;
+}
+
+.details-card li {
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+}
+
+.character-details,
+.planet-details {
+  flex: 1 1 100%;
+}
+
+.details-card h4 {
+  background-color: #748687;
+}
+
+ul {
+  list-style: none;
+}
+
+.pag-nav {
+  display: flex;
+  align-items: flex-end;
+}
+
+.character-details__list {
+  background-color: #c4c4c4;
+}
+
+.planet-details__list {
+  background-color: #8e8e8e;
+}
