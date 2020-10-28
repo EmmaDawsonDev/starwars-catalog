@@ -64,7 +64,7 @@ main {
 
 .character-card li {
   letter-spacing: 0.15em;
-  padding: 10px;
+  padding: 8px 10px;
 }
 
 .details-card li {
