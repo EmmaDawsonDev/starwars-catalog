@@ -2,13 +2,25 @@ const characterList = document.querySelector('.character-list')
 const btnLeft = document.querySelector('.left-btn')
 const btnRight = document.querySelector('.right-btn')
 const currentPage = document.querySelector(".current-page")
+const cache = {
+  people: {},
+  planets: {}, 
+  species: {},
+  vehicles: {},
+  starships: {}
+}
 
 let index = 1;
 currentPage.innerText = index;
 
 async function getCharacters() {
+  console.log(cache)
+  if (cache.people[index]) {
+    return cache.people[index]
+  }
   let data = await fetch('https://swapi.dev/api/people/?page=' + index)
   let characters = await data.json()
+  cache.people[index] = characters
   return characters
 }
 
@@ -37,24 +49,51 @@ function renderCharDetails(char) {
 async function renderPlanetDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
+ 
   let homeworldLink = char.homeworld
-  let homeworld = await fetch(homeworldLink)
-  let homeworldData = await homeworld.json()
+  let homeworldData
+  if (cache.planets[homeworldLink]) {
+    homeworldData = cache.planets[homeworldLink]
+  } else {
+    let homeworld = await fetch(homeworldLink)
+    homeworldData = await homeworld.json()
+  }
   
-  const name = document.querySelector(".planet-name")
-  name.innerText = homeworldData.name
-  const rp = document.querySelector(".rp")
-  rp.innerText = "Rotation period: " + homeworldData.rotation_period
-  const orb = document.querySelector(".orb")
-  orb.innerText = "Orbital period: " + homeworldData.orbital_period
-  const diameter = document.querySelector(".diameter")
-  diameter.innerText = "Diameter: " + homeworldData.diameter
-  const climate = document.querySelector(".climate")
-  climate.innerText = "Climate: " + homeworldData.climate
-  const gravity = document.querySelector(".gravity")
-  gravity.innerText = "Gravity: " + homeworldData.gravity
-  const terrain = document.querySelector(".terrain")
-  terrain.innerText = "Terrain: " + homeworldData.gravity
+
+
+  cache.planets[homeworldData.url] = homeworldData
+  console.log(cache)
+
+  const planetsUL = document.querySelector(".planet-details__list")
+  planetsUL.innerHTML = ''
+  const name = document.createElement("li");
+  name.innerHTML =  `<li class="details-name planet-name">${homeworldData.name}</li>`
+  planetsUL.append(name);
+  
+  const rp = document.createElement("li");
+  rp.innerHTML = `<li class="rp">Rotation period: ${homeworldData.rotation_period}</li>` 
+  planetsUL.append(rp);
+
+  const orb = document.createElement("li");
+  orb.innerHTML = `<li class="orb">Orbital period: ${homeworldData.orbital_period}</li>`
+  planetsUL.append(orb);
+
+  const diameter = document.createElement("li");
+  diameter.innerHTML = `<li class="diameter">Diameter: ${homeworldData.diameter}</li>`  
+  planetsUL.append(diameter);
+  
+  const climate = document.createElement("li");
+  climate.innerHTML = `<li class="climate">Climate: ${homeworldData.climate}</li>`
+  planetsUL.append(climate);
+
+  const gravity = document.createElement("li");
+  gravity.innerHTML = `<li class="gravity">Gravity: ${homeworldData.gravity}</li>`
+  planetsUL.append(gravity)
+  
+  const terrain = document.createElement("li");
+  terrain.innerHTML = `<li class="terrain">Terrain: ${homeworldData.gravity}</li>`
+  planetsUL.append(terrain)
+
   charLoader.classList.remove('loader-visible')
 }
 
@@ -108,6 +147,48 @@ btnLeft.addEventListener('click', () => {
   renderCharList()
 })
 
+let tabs = document.querySelectorAll('.tab')
+const planetTab = document.querySelector('.planet-tab')
+const speciesTab = document.querySelector('.species-tab')
+const vehiclesTab = document.querySelector('.vehicles-tab')
+const starshipsTab = document.querySelector('.starships-tab')
+
+
+planetTab.addEventListener('click', () => {
+  tabs.forEach(tab => {
+    tab.classList.remove('tab-active')
+  })
+
+  planetTab.classList.add('tab-active')
+  console.log(cache)
+})
+
+speciesTab.addEventListener('click', () => {
+  tabs.forEach(tab => {
+    tab.classList.remove('tab-active')
+  })
+
+  speciesTab.classList.add('tab-active')
+
+})
+
+vehiclesTab.addEventListener('click', () => {
+  tabs.forEach(tab => {
+    tab.classList.remove('tab-active')
+  })
+
+  vehiclesTab.classList.add('tab-active')
+
+})
+
+starshipsTab.addEventListener('click', () => {
+  tabs.forEach(tab => {
+    tab.classList.remove('tab-active')
+  })
+
+  starshipsTab.classList.add('tab-active')
+
+})
 
 // OLD CODE
 // const characterList = document.querySelector('.character-list')

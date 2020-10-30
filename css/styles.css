@@ -142,6 +142,10 @@ button {
   position: relative;
 }
 
+.planet-details {
+  position: relative;
+}
+
 .planet-details__list {
   background-color: #8e8e8e;
   color: white;
@@ -207,7 +211,8 @@ button {
   left: 43%;
 }
 
-.loader-visible {
+.loader-visible,
+.details-visible {
   display: block;
 }
 
@@ -242,8 +247,9 @@ button {
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
   position: absolute;
-  top: 40%;
+  top: 35%;
   left: 43%;
+  z-index: 100000;
 }
 
 /* Safari */
@@ -263,4 +269,28 @@ button {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/*Tabs*/
+.tabs {
+  display: flex;
+  
+}
+
+.tab {
+  margin-left: 15px;
+  font-size: 10px;
+  font-family: "Roboto";
+  text-align: center;
+  background-color: #e1dede;
+  color: #8c7600;
+  padding: 10px 7px;
+  letter-spacing: .2em;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  cursor: pointer;
+}
+
+.tab-active {
+  background-color: #8e8e8e;
 }
