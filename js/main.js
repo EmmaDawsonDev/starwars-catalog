@@ -59,10 +59,8 @@ async function renderPlanetDetails(char) {
     homeworldData = await homeworld.json()
   }
   
-
-
   cache.planets[homeworldData.url] = homeworldData
-  console.log(cache)
+  // console.log(cache)
 
   const planetsUL = document.querySelector(".planet-details__list")
   planetsUL.innerHTML = ''
@@ -97,6 +95,120 @@ async function renderPlanetDetails(char) {
   charLoader.classList.remove('loader-visible')
 }
 
+async function renderSpeciesDetails(char) {
+  const charLoader = document.querySelector('.loader-white')
+  charLoader.classList.add('loader-visible')
+ 
+  let speciesLink = char.species[0]
+  if (!speciesLink) {
+    speciesLink = "http://swapi.dev/api/species/1/"
+  }
+
+  let speciesData
+  if (cache.species[speciesLink]) {
+    speciesData = cache.species[speciesLink]
+  } else {
+    let species = await fetch(speciesLink)
+    speciesData = await species.json()
+  }
+
+  cache.species[speciesData.url] = speciesData
+
+
+  // const speciesUL = document.querySelector(".species-details__list")
+  // speciesUL.innerHTML = ''
+  const planetsUL = document.querySelector(".planet-details__list")
+  planetsUL.innerHTML = ''
+  const name = document.createElement("li");
+  name.innerHTML =  `<li class="details-name planet-name">${speciesData.name}</li>`
+  planetsUL.append(name);
+
+  // classification
+  const classification = document.createElement("li");
+  classification.innerHTML = `<li class="classification">Classification: ${speciesData.classification}</li>` 
+  planetsUL.append(classification);
+
+// average_lifespan
+const lifespan = document.createElement("li");
+lifespan.innerHTML = `<li class="classification">Average lifespan: ${speciesData.average_lifespan}</li>` 
+planetsUL.append(lifespan);
+
+// designation
+const designation = document.createElement("li");
+designation.innerHTML = `<li class="classification">Designation: ${speciesData.designation}</li>` 
+planetsUL.append(designation);
+
+// const homeworld = document.createElement("li");
+// // homeworld
+// if (cache.species[speciesData.homeworld]) {
+//   homeworld.innerHTML = `<li class="classification">Homeworld: ${cache.species[speciesData.homeworld]}</li>` 
+// } else {
+//   let data = await fetch(speciesData.homeworld)
+//   let homeworldData = await data.json()
+//   homeworld.innerHTML = `<li class="classification">Homeworld: ${homeworldData.name}</li>` 
+// }
+// speciesUL.append(homeworld);
+
+// language
+const language = document.createElement("li");
+language.innerHTML = `<li class="classification">Language: ${speciesData.language}</li>` 
+planetsUL.append(language);
+
+charLoader.classList.remove('loader-visible')
+}
+
+//Vehicles
+async function renderVehicleDetails(char) {
+  const charLoader = document.querySelector('.loader-white')
+  charLoader.classList.add('loader-visible')
+ if (char.vehicles.length > 0 ) {
+  let vehiclesLink = char.vehicles[0]
+  let vehiclesData
+  if (cache.vehicles[vehiclesLink]) {
+    vehiclesData = cache.planets[vehiclesLink]
+  } else {
+    let vehicles = await fetch(vehiclesLink)
+    vehiclesData = await vehicles.json()
+  }
+  
+  cache.vehicles[vehiclesData.url] = vehiclesData
+  console.log(cache)
+
+  const planetsUL = document.querySelector(".planet-details__list")
+  planetsUL.innerHTML = ''
+  const name = document.createElement("li");
+  name.innerHTML =  `<li class="details-name car-name">${vehiclesData.name}</li>`
+  planetsUL.append(name);
+  
+  const model = document.createElement("li");
+  model.innerHTML = `<li class="rp">Model: ${vehiclesData.model}</li>` 
+  planetsUL.append(model);
+
+  const crew = document.createElement("li");
+  crew.innerHTML = `<li class="crew">Crew: ${vehiclesData.crew}</li>`
+  planetsUL.append(crew);
+
+  const passengers = document.createElement("li");
+  passengers.innerHTML = `<li class="passengers">Passengers: ${vehiclesData.passengers}</li>`  
+  planetsUL.append(passengers);
+  
+  const cargo = document.createElement("li");
+  cargo.innerHTML = `<li class="cargo">cargo: ${vehiclesData.cargo}</li>`
+  planetsUL.append(cargo);
+
+  const gravity = document.createElement("li");
+  gravity.innerHTML = `<li class="gravity">Gravity: ${vehiclesData.gravity}</li>`
+  planetsUL.append(gravity)
+  
+  const terrain = document.createElement("li");
+  terrain.innerHTML = `<li class="terrain">Terrain: ${vehiclesData.gravity}</li>`
+  planetsUL.append(terrain)
+ }
+  
+
+  charLoader.classList.remove('loader-visible')
+}
+
 async function renderCharList() {
   const charLoader = document.querySelector('.loader-grey-characters')
   charLoader.classList.add('loader-visible')
@@ -111,6 +223,8 @@ async function renderCharList() {
     li.addEventListener("click", () => {
       renderCharDetails(char)
       renderPlanetDetails(char)
+      renderSpeciesDetails(char)
+      renderVehicleDetails(char)
     })
     li.addEventListener("mouseover", () => {
       const focusArrow = li.querySelector(".focus-arrow")
