@@ -109,7 +109,7 @@ async function renderSpeciesDetails(char) {
 
   let speciesLink = char.species[0]
   if (!speciesLink) {
-    speciesLink = "http://swapi.dev/api/species/1/" // human!
+    speciesLink = "https://swapi.dev/api/species/1/" // human!
   }
 
   let speciesData
