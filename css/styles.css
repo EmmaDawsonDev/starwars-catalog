@@ -142,16 +142,11 @@ button {
   position: relative;
 }
 
-.planet-details, .species-details {
+.planet-details {
   position: relative;
 }
 
-/* .species-details {
-  z-index: 10000;
-} */
-
-.planet-details__list, 
-.species-details__list {
+.planet-details__list {
   background-color: #8e8e8e;
   color: white;
   height: 100%;

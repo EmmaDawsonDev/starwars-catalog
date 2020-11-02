@@ -2,6 +2,12 @@ const characterList = document.querySelector('.character-list')
 const btnLeft = document.querySelector('.left-btn')
 const btnRight = document.querySelector('.right-btn')
 const currentPage = document.querySelector(".current-page")
+let tabs = document.querySelectorAll('.tab')
+const planetTab = document.querySelector('.planet-tab')
+const speciesTab = document.querySelector('.species-tab')
+const vehiclesTab = document.querySelector('.vehicles-tab')
+const starshipsTab = document.querySelector('.starships-tab')
+const planetsUL = document.querySelector(".planet-details__list")
 const cache = {
   people: {},
   planets: {},
@@ -16,7 +22,6 @@ let index = 1;
 currentPage.innerText = index;
 
 async function getCharacters() {
-  console.log(cache)
   if (cache.people[index]) {
     return cache.people[index]
   }
@@ -64,7 +69,7 @@ async function renderPlanetDetails(char) {
 
   cache.planets[homeworldData.url] = homeworldData
 
-  const planetsUL = document.querySelector(".planet-details__list")
+  
   planetsUL.innerHTML = ''
 
   const name = document.createElement("li");
@@ -72,27 +77,27 @@ async function renderPlanetDetails(char) {
   planetsUL.append(name);
 
   const rp = document.createElement("li");
-  rp.innerHTML = `<li class="rp">Rotation period: ${homeworldData.rotation_period}</li>`
+  rp.innerHTML = `<li>Rotation period: ${homeworldData.rotation_period}</li>`
   planetsUL.append(rp);
 
   const orb = document.createElement("li");
-  orb.innerHTML = `<li class="orb">Orbital period: ${homeworldData.orbital_period}</li>`
+  orb.innerHTML = `<li>Orbital period: ${homeworldData.orbital_period}</li>`
   planetsUL.append(orb);
 
   const diameter = document.createElement("li");
-  diameter.innerHTML = `<li class="diameter">Diameter: ${homeworldData.diameter}</li>`
+  diameter.innerHTML = `<li>Diameter: ${homeworldData.diameter}</li>`
   planetsUL.append(diameter);
 
   const climate = document.createElement("li");
-  climate.innerHTML = `<li class="climate">Climate: ${homeworldData.climate}</li>`
+  climate.innerHTML = `<li>Climate: ${homeworldData.climate}</li>`
   planetsUL.append(climate);
 
   const gravity = document.createElement("li");
-  gravity.innerHTML = `<li class="gravity">Gravity: ${homeworldData.gravity}</li>`
+  gravity.innerHTML = `<li>Gravity: ${homeworldData.gravity}</li>`
   planetsUL.append(gravity)
 
   const terrain = document.createElement("li");
-  terrain.innerHTML = `<li class="terrain">Terrain: ${homeworldData.gravity}</li>`
+  terrain.innerHTML = `<li>Terrain: ${homeworldData.gravity}</li>`
   planetsUL.append(terrain)
 
   charLoader.classList.remove('loader-visible')
@@ -117,7 +122,7 @@ async function renderSpeciesDetails(char) {
 
   cache.species[speciesData.url] = speciesData
 
-  const planetsUL = document.querySelector(".planet-details__list")
+  
   planetsUL.innerHTML = ''
   const name = document.createElement("li");
   name.innerHTML = `<li class="details-name planet-name">${speciesData.name}</li>`
@@ -125,12 +130,12 @@ async function renderSpeciesDetails(char) {
 
   // classification
   const classification = document.createElement("li");
-  classification.innerHTML = `<li class="classification">Classification: ${speciesData.classification}</li>`
+  classification.innerHTML = `<li>Classification: ${speciesData.classification}</li>`
   planetsUL.append(classification);
 
   // average_lifespan
   const lifespan = document.createElement("li");
-  lifespan.innerHTML = `<li class="classification">Average lifespan: ${speciesData.average_lifespan}</li>`
+  lifespan.innerHTML = `<li>Average lifespan: ${speciesData.average_lifespan}</li>`
   planetsUL.append(lifespan);
 
   // homeworld
@@ -138,22 +143,22 @@ async function renderSpeciesDetails(char) {
 
   if (speciesData.homeworld) {
     if (cache.species.homeworlds[speciesData.homeworld]) {
-      homeworld.innerHTML = `<li class="classification">Homeworld: ${cache.species.homeworlds[speciesData.homeworld]}</li>`
+      homeworld.innerHTML = `<li>Homeworld: ${cache.species.homeworlds[speciesData.homeworld]}</li>`
     } else {
       let data = await fetch(speciesData.homeworld)
       let homeworldData = await data.json()
-      homeworld.innerHTML = `<li class="classification">Homeworld: ${homeworldData.name}</li>`
+      homeworld.innerHTML = `<li>Homeworld: ${homeworldData.name}</li>`
       cache.species.homeworlds[speciesData.homeworld] = homeworldData.name
     }
   } else {
-    homeworld.innerHTML = `<li class="classification">Homeworld: unknown</li>`
+    homeworld.innerHTML = `<li>Homeworld: unknown</li>`
   }
 
   planetsUL.append(homeworld);
 
   // language
   const language = document.createElement("li");
-  language.innerHTML = `<li class="classification">Language: ${speciesData.language}</li>`
+  language.innerHTML = `<li>Language: ${speciesData.language}</li>`
   planetsUL.append(language);
 
   charLoader.classList.remove('loader-visible')
@@ -163,52 +168,104 @@ async function renderSpeciesDetails(char) {
 async function renderVehicleDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
+  if (char.vehicles.length === 0) {
+    planetsUL.innerHTML = '<li class="details-name">No Vehicle</li>'
+  }
   if (char.vehicles.length > 0) {
     let vehiclesLink = char.vehicles[0]
     let vehiclesData
     if (cache.vehicles[vehiclesLink]) {
-      vehiclesData = cache.planets[vehiclesLink]
+      vehiclesData = cache.vehicles[vehiclesLink]
     } else {
       let vehicles = await fetch(vehiclesLink)
       vehiclesData = await vehicles.json()
     }
 
     cache.vehicles[vehiclesData.url] = vehiclesData
-    console.log(cache)
-
-    const planetsUL = document.querySelector(".planet-details__list")
+    
     planetsUL.innerHTML = ''
     const name = document.createElement("li");
     name.innerHTML = `<li class="details-name car-name">${vehiclesData.name}</li>`
     planetsUL.append(name);
 
     const model = document.createElement("li");
-    model.innerHTML = `<li class="rp">Model: ${vehiclesData.model}</li>`
+    model.innerHTML = `<li>Model: ${vehiclesData.model}</li>`
     planetsUL.append(model);
 
     const crew = document.createElement("li");
-    crew.innerHTML = `<li class="crew">Crew: ${vehiclesData.crew}</li>`
+    crew.innerHTML = `<li>Crew: ${vehiclesData.crew}</li>`
     planetsUL.append(crew);
 
     const passengers = document.createElement("li");
-    passengers.innerHTML = `<li class="passengers">Passengers: ${vehiclesData.passengers}</li>`
+    passengers.innerHTML = `<li>Passengers: ${vehiclesData.passengers}</li>`
     planetsUL.append(passengers);
 
     const cargo = document.createElement("li");
-    cargo.innerHTML = `<li class="cargo">cargo: ${vehiclesData.cargo}</li>`
+    cargo.innerHTML = `<li>Cargo: ${vehiclesData.cargo_capacity}</li>`
     planetsUL.append(cargo);
 
-    const gravity = document.createElement("li");
-    gravity.innerHTML = `<li class="gravity">Gravity: ${vehiclesData.gravity}</li>`
-    planetsUL.append(gravity)
-
-    const terrain = document.createElement("li");
-    terrain.innerHTML = `<li class="terrain">Terrain: ${vehiclesData.gravity}</li>`
-    planetsUL.append(terrain)
-  }
+    }
 
 
   charLoader.classList.remove('loader-visible')
+}
+
+async function renderStarshipDetails(char) {
+  const charLoader = document.querySelector('.loader-white')
+  charLoader.classList.add('loader-visible')
+  
+  if (char.starships.length === 0) {
+    planetsUL.innerHTML = '<li class="details-name">No Ship</li>'
+  }
+  if (char.starships.length > 0) {
+    let starshipsLink = char.starships[0]
+    let starshipsData
+    if (cache.starships[starshipsLink]) {
+      starshipsData = cache.starships[starshipsLink]
+    } else {
+      let starships = await fetch(starshipsLink)
+      starshipsData = await starships.json()
+    }
+
+    cache.starships[starshipsData.url] = starshipsData
+    
+    planetsUL.innerHTML = ''
+    const name = document.createElement("li");
+    name.innerHTML = `<li class="details-name">${starshipsData.name}</li>`
+    planetsUL.append(name);
+
+    const model = document.createElement("li");
+    model.innerHTML = `<li>Model: ${starshipsData.model}</li>`
+    planetsUL.append(model);
+
+    const cost = document.createElement("li");
+    cost.innerHTML = `<li>Cost: ${starshipsData.cost_in_credits}</li>`
+    planetsUL.append(cost);
+
+    const length = document.createElement("li");
+    length.innerHTML = `<li>Length: ${starshipsData.length}</li>`
+    planetsUL.append(length);
+
+    const crew = document.createElement("li");
+    crew.innerHTML = `<li>Crew: ${starshipsData.crew}</li>`
+    planetsUL.append(crew);
+
+    const hyperdrive = document.createElement("li");
+    hyperdrive.innerHTML = `<li>Hyperdrive: ${starshipsData.hyperdrive_rating}</li>`
+    planetsUL.append(hyperdrive)
+
+    const starshipClass = document.createElement("li");
+    starshipClass.innerHTML = `<li>Starship class: ${starshipsData.starship_class}</li>`
+    planetsUL.append(starshipClass)
+  }
+
+  charLoader.classList.remove('loader-visible')
+}
+
+function clearTabs() {
+  tabs.forEach(tab => {
+    tab.classList.remove('tab-active')
+  })
 }
 
 async function renderCharList() {
@@ -224,9 +281,10 @@ async function renderCharList() {
     characterList.appendChild(li)
     li.addEventListener("click", () => {
       renderCharDetails(char)
+      clearTabs()
+      planetTab.classList.add("tab-active")
       renderPlanetDetails(char)
-      renderSpeciesDetails(char)
-      renderVehicleDetails(char)
+      renderTabs(char)
     })
     li.addEventListener("mouseover", () => {
       const focusArrow = li.querySelector(".focus-arrow")
@@ -262,85 +320,34 @@ btnLeft.addEventListener('click', () => {
   currentPage.innerText = index;
   renderCharList()
 })
-
-let tabs = document.querySelectorAll('.tab')
-const planetTab = document.querySelector('.planet-tab')
-const speciesTab = document.querySelector('.species-tab')
-const vehiclesTab = document.querySelector('.vehicles-tab')
-const starshipsTab = document.querySelector('.starships-tab')
-
-
-planetTab.addEventListener('click', () => {
-  tabs.forEach(tab => {
-    tab.classList.remove('tab-active')
+function renderTabs(char) {
+ planetTab.addEventListener('click', () => {
+    clearTabs()
+  
+    planetTab.classList.add('tab-active')
+    renderPlanetDetails(char)
   })
-
-  planetTab.classList.add('tab-active')
-
-})
-
-speciesTab.addEventListener('click', () => {
-  tabs.forEach(tab => {
-    tab.classList.remove('tab-active')
+  
+  speciesTab.addEventListener('click', () => {
+    clearTabs()
+  
+    speciesTab.classList.add('tab-active')
+    renderSpeciesDetails(char)
   })
-
-  speciesTab.classList.add('tab-active')
-  console.log(cache)
-})
-
-vehiclesTab.addEventListener('click', () => {
-  tabs.forEach(tab => {
-    tab.classList.remove('tab-active')
+  
+  vehiclesTab.addEventListener('click', () => {
+    clearTabs()
+  
+    vehiclesTab.classList.add('tab-active')
+  renderVehicleDetails(char)
   })
-
-  vehiclesTab.classList.add('tab-active')
-
-})
-
-starshipsTab.addEventListener('click', () => {
-  tabs.forEach(tab => {
-    tab.classList.remove('tab-active')
+  
+  starshipsTab.addEventListener('click', () => {
+    clearTabs()
+  
+    starshipsTab.classList.add('tab-active')
+  renderStarshipDetails(char)
   })
+}
 
-  starshipsTab.classList.add('tab-active')
 
-})
-
-// OLD CODE
-// const characterList = document.querySelector('.character-list')
-// const btnLeft = document.querySelector('.left-btn')
-// const btnRight = document.querySelector('.right-btn')
-
-// async function getCharacters() {
-//   let data = await fetch('https://swapi.dev/api/people/')
-//   let characters = await data.json()
-//   console.log(characters)
-//   return characters
-// }
-
-// async function renderCharList() {
-//   let data = await getCharacters()
-//   let characters = data.results
-
-//   for (let char of characters) {
-//     let li = document.createElement('li')
-//     li.innerHTML = `${char.name} <span class="focus-arrow">&#9656</span>`
-//     characterList.appendChild(li)
-    // li.addEventListener("mouseover", () => {
-    // const focusArrow = li.querySelector(".focus-arrow")
-    // focusArrow.classList.add("visible")
-    // })
-    // li.addEventListener("mouseout", () => {
-    //   const focusArrow = li.querySelector(".focus-arrow")
-    //   focusArrow.classList.remove("visible")
-    //   })
-//   }
-// }
-
-// renderCharList()
-
-// btnRight.addEventListener('click', async () => {
-//   let characters = await getCharacters()
-//   let next10 = characters.next
-//   console.log(next10)
-// })
