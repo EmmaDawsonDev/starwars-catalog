@@ -82,7 +82,7 @@ main {
 }
 
 .character-card li:hover,
-.character-card li:focus {
+.character-card li:active {
   cursor: pointer;
   background-color: #444;
   color: white;

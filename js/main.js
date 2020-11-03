@@ -58,7 +58,7 @@ async function renderPlanetDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
 
-  let homeworldLink = char.homeworld
+  let homeworldLink = char.homeworld.split(":").join("s:")
   let homeworldData
   if (cache.planets[homeworldLink]) {
     homeworldData = cache.planets[homeworldLink]
@@ -106,11 +106,13 @@ async function renderPlanetDetails(char) {
 async function renderSpeciesDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
-
-  let speciesLink = char.species[0]
-  if (!speciesLink) {
+  let speciesLink
+  if (char.species.length == 0) {
     speciesLink = "https://swapi.dev/api/species/1/" // human!
+  } else {
+    speciesLink = char.species[0].split(':').join('s:')
   }
+  
 
   let speciesData
   if (cache.species[speciesLink]) {
@@ -172,7 +174,7 @@ async function renderVehicleDetails(char) {
     planetsUL.innerHTML = '<li class="details-name">No Vehicle</li>'
   }
   if (char.vehicles.length > 0) {
-    let vehiclesLink = char.vehicles[0]
+    let vehiclesLink = char.vehicles[0].split(":").join("s:")
     let vehiclesData
     if (cache.vehicles[vehiclesLink]) {
       vehiclesData = cache.vehicles[vehiclesLink]
@@ -218,7 +220,8 @@ async function renderStarshipDetails(char) {
     planetsUL.innerHTML = '<li class="details-name">No Ship</li>'
   }
   if (char.starships.length > 0) {
-    let starshipsLink = char.starships[0]
+    let starshipsLink = char.starships[0].split(":").join("s:");
+    console.log(starshipsLink);
     let starshipsData
     if (cache.starships[starshipsLink]) {
       starshipsData = cache.starships[starshipsLink]
@@ -290,6 +293,9 @@ async function renderCharList() {
       const focusArrow = li.querySelector(".focus-arrow")
       focusArrow.classList.add("visible")
     })
+    li.addEventListener('click', () => {
+      li.focus()
+    })
     li.addEventListener("mouseout", () => {
       const focusArrow = li.querySelector(".focus-arrow")
       focusArrow.classList.remove("visible")
@@ -321,32 +327,44 @@ btnLeft.addEventListener('click', () => {
   renderCharList()
 })
 function renderTabs(char) {
- planetTab.addEventListener('click', () => {
+  function planetTabListener() {
     clearTabs()
-  
     planetTab.classList.add('tab-active')
     renderPlanetDetails(char)
-  })
+  }
+ 
+  planetTab.addEventListener('click', planetTabListener)
   
-  speciesTab.addEventListener('click', () => {
+  function speciesTabListener() {
     clearTabs()
-  
     speciesTab.classList.add('tab-active')
     renderSpeciesDetails(char)
-  })
+  }
   
-  vehiclesTab.addEventListener('click', () => {
+  speciesTab.addEventListener('click', speciesTabListener)
+  
+  function vehiclesTabListener() {
     clearTabs()
-  
     vehiclesTab.classList.add('tab-active')
-  renderVehicleDetails(char)
-  })
+    renderVehicleDetails(char)
+  }
+
   
-  starshipsTab.addEventListener('click', () => {
+  vehiclesTab.addEventListener('click', vehiclesTabListener)
+  
+
+  function starshipsTabListener() {
     clearTabs()
-  
     starshipsTab.classList.add('tab-active')
-  renderStarshipDetails(char)
+    renderStarshipDetails(char)
+  }
+  starshipsTab.addEventListener('click', starshipsTabListener)
+
+  characterList.addEventListener("mousedown", () => {
+    planetTab.removeEventListener("click", planetTabListener)
+    speciesTab.removeEventListener("click", speciesTabListener)
+    vehiclesTab.removeEventListener("click", vehiclesTabListener)
+    starshipsTab.removeEventListener("click", starshipsTabListener)
   })
 }
 
