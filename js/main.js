@@ -67,9 +67,8 @@ async function renderPlanetDetails(char) {
     homeworldData = await homeworld.json()
   }
 
-  cache.planets[homeworldData.url] = homeworldData
+  cache.planets[homeworldData.url.split(":").join("s:")] = homeworldData
 
-  
   planetsUL.innerHTML = ''
 
   const name = document.createElement("li");
@@ -112,7 +111,7 @@ async function renderSpeciesDetails(char) {
   } else {
     speciesLink = char.species[0].split(':').join('s:')
   }
-  
+
 
   let speciesData
   if (cache.species[speciesLink]) {
@@ -122,9 +121,9 @@ async function renderSpeciesDetails(char) {
     speciesData = await species.json()
   }
 
-  cache.species[speciesData.url] = speciesData
+  cache.species[speciesData.url.split(':').join('s:')] = speciesData
 
-  
+
   planetsUL.innerHTML = ''
   const name = document.createElement("li");
   name.innerHTML = `<li class="details-name planet-name">${speciesData.name}</li>`
@@ -144,13 +143,14 @@ async function renderSpeciesDetails(char) {
   const homeworld = document.createElement("li");
 
   if (speciesData.homeworld) {
-    if (cache.species.homeworlds[speciesData.homeworld]) {
-      homeworld.innerHTML = `<li>Homeworld: ${cache.species.homeworlds[speciesData.homeworld]}</li>`
+    let homeworldLink = speciesData.homeworld.split(':').join('s:')
+    if (cache.species.homeworlds[homeworldLink]) {
+      homeworld.innerHTML = `<li>Homeworld: ${cache.species.homeworlds[homeworldLink]}</li>`
     } else {
-      let data = await fetch(speciesData.homeworld)
+      let data = await fetch(homeworldLink)
       let homeworldData = await data.json()
       homeworld.innerHTML = `<li>Homeworld: ${homeworldData.name}</li>`
-      cache.species.homeworlds[speciesData.homeworld] = homeworldData.name
+      cache.species.homeworlds[homeworldLink] = homeworldData.name
     }
   } else {
     homeworld.innerHTML = `<li>Homeworld: unknown</li>`
@@ -183,8 +183,8 @@ async function renderVehicleDetails(char) {
       vehiclesData = await vehicles.json()
     }
 
-    cache.vehicles[vehiclesData.url] = vehiclesData
-    
+    cache.vehicles[vehiclesData.url.split(":").join("s:")] = vehiclesData
+
     planetsUL.innerHTML = ''
     const name = document.createElement("li");
     name.innerHTML = `<li class="details-name car-name">${vehiclesData.name}</li>`
@@ -206,7 +206,7 @@ async function renderVehicleDetails(char) {
     cargo.innerHTML = `<li>Cargo: ${vehiclesData.cargo_capacity}</li>`
     planetsUL.append(cargo);
 
-    }
+  }
 
 
   charLoader.classList.remove('loader-visible')
@@ -215,7 +215,7 @@ async function renderVehicleDetails(char) {
 async function renderStarshipDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
-  
+
   if (char.starships.length === 0) {
     planetsUL.innerHTML = '<li class="details-name">No Ship</li>'
   }
@@ -230,8 +230,8 @@ async function renderStarshipDetails(char) {
       starshipsData = await starships.json()
     }
 
-    cache.starships[starshipsData.url] = starshipsData
-    
+    cache.starships[starshipsData.url.split(":").join("s:")] = starshipsData
+
     planetsUL.innerHTML = ''
     const name = document.createElement("li");
     name.innerHTML = `<li class="details-name">${starshipsData.name}</li>`
@@ -332,26 +332,26 @@ function renderTabs(char) {
     planetTab.classList.add('tab-active')
     renderPlanetDetails(char)
   }
- 
+
   planetTab.addEventListener('click', planetTabListener)
-  
+
   function speciesTabListener() {
     clearTabs()
     speciesTab.classList.add('tab-active')
     renderSpeciesDetails(char)
   }
-  
+
   speciesTab.addEventListener('click', speciesTabListener)
-  
+
   function vehiclesTabListener() {
     clearTabs()
     vehiclesTab.classList.add('tab-active')
     renderVehicleDetails(char)
   }
 
-  
+
   vehiclesTab.addEventListener('click', vehiclesTabListener)
-  
+
 
   function starshipsTabListener() {
     clearTabs()
