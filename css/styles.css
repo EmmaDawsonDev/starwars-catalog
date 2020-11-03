@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 h1,
@@ -13,7 +13,7 @@ h2,
 h3,
 h4 {
   color: #ffd600;
-  font-family: "Ropa Sans", sans-serif;
+  font-family: 'Ropa Sans', sans-serif;
 }
 
 .container {
@@ -24,7 +24,7 @@ h4 {
 }
 
 header {
-  background-image: url("../assets/sw-header.jpg");
+  background-image: url('../assets/sw-header.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -134,6 +134,18 @@ button {
   outline: none;
   font-size: 1rem;
   cursor: pointer;
+}
+
+.left-btn {
+  transform: rotate(180deg);
+}
+
+.left-btn:active {
+  transform: rotate(180deg) scale(0.92);
+}
+
+button:active {
+  transform: scale(0.92);
 }
 .character-details__list {
   background-color: #c4c4c4;
@@ -274,18 +286,17 @@ button {
 /*Tabs*/
 .tabs {
   display: flex;
-  
 }
 
 .tab {
   margin-left: 15px;
   font-size: 10px;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   text-align: center;
   background-color: #e1dede;
   color: #8c7600;
   padding: 10px 7px;
-  letter-spacing: .2em;
+  letter-spacing: 0.2em;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   cursor: pointer;
