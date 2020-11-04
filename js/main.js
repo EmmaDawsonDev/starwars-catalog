@@ -2,7 +2,7 @@ const characterList = document.querySelector('.character-list')
 const btnLeft = document.querySelector('.left-btn')
 const btnRight = document.querySelector('.right-btn')
 const currentPage = document.querySelector(".current-page")
-let tabs = document.querySelectorAll('.tab')
+const tabs = document.querySelectorAll('.tab')
 const planetTab = document.querySelector('.planet-tab')
 const speciesTab = document.querySelector('.species-tab')
 const vehiclesTab = document.querySelector('.vehicles-tab')
@@ -72,31 +72,32 @@ async function renderPlanetDetails(char) {
   planetsUL.innerHTML = ''
 
   const name = document.createElement("li");
-  name.innerHTML = `<li class="details-name planet-name">${homeworldData.name}</li>`
+  name.classList.add('details-name')
+  name.innerHTML = homeworldData.name
   planetsUL.append(name);
 
   const rp = document.createElement("li");
-  rp.innerHTML = `<li>Rotation period: ${homeworldData.rotation_period}</li>`
+  rp.innerHTML = `Rotation period: ${homeworldData.rotation_period}`
   planetsUL.append(rp);
 
   const orb = document.createElement("li");
-  orb.innerHTML = `<li>Orbital period: ${homeworldData.orbital_period}</li>`
+  orb.innerHTML = `Orbital period: ${homeworldData.orbital_period}`
   planetsUL.append(orb);
 
   const diameter = document.createElement("li");
-  diameter.innerHTML = `<li>Diameter: ${homeworldData.diameter}</li>`
+  diameter.innerHTML = `Diameter: ${homeworldData.diameter}`
   planetsUL.append(diameter);
 
   const climate = document.createElement("li");
-  climate.innerHTML = `<li>Climate: ${homeworldData.climate}</li>`
+  climate.innerHTML = `Climate: ${homeworldData.climate}`
   planetsUL.append(climate);
 
   const gravity = document.createElement("li");
-  gravity.innerHTML = `<li>Gravity: ${homeworldData.gravity}</li>`
+  gravity.innerHTML = `Gravity: ${homeworldData.gravity}`
   planetsUL.append(gravity)
 
   const terrain = document.createElement("li");
-  terrain.innerHTML = `<li>Terrain: ${homeworldData.gravity}</li>`
+  terrain.innerHTML = `Terrain: ${homeworldData.gravity}`
   planetsUL.append(terrain)
 
   charLoader.classList.remove('loader-visible')
@@ -112,7 +113,6 @@ async function renderSpeciesDetails(char) {
     speciesLink = char.species[0].split(':').join('s:')
   }
 
-
   let speciesData
   if (cache.species[speciesLink]) {
     speciesData = cache.species[speciesLink]
@@ -123,20 +123,20 @@ async function renderSpeciesDetails(char) {
 
   cache.species[speciesData.url.split(':').join('s:')] = speciesData
 
-
   planetsUL.innerHTML = ''
   const name = document.createElement("li");
-  name.innerHTML = `<li class="details-name planet-name">${speciesData.name}</li>`
+  name.classList.add('details-name')
+  name.innerHTML = speciesData.name
   planetsUL.append(name);
 
   // classification
   const classification = document.createElement("li");
-  classification.innerHTML = `<li>Classification: ${speciesData.classification}</li>`
+  classification.innerHTML = `Classification: ${speciesData.classification}`
   planetsUL.append(classification);
 
   // average_lifespan
   const lifespan = document.createElement("li");
-  lifespan.innerHTML = `<li>Average lifespan: ${speciesData.average_lifespan}</li>`
+  lifespan.innerHTML = `Average lifespan: ${speciesData.average_lifespan}`
   planetsUL.append(lifespan);
 
   // homeworld
@@ -145,22 +145,22 @@ async function renderSpeciesDetails(char) {
   if (speciesData.homeworld) {
     let homeworldLink = speciesData.homeworld.split(':').join('s:')
     if (cache.species.homeworlds[homeworldLink]) {
-      homeworld.innerHTML = `<li>Homeworld: ${cache.species.homeworlds[homeworldLink]}</li>`
+      homeworld.innerHTML = `Homeworld: ${cache.species.homeworlds[homeworldLink]}`
     } else {
       let data = await fetch(homeworldLink)
       let homeworldData = await data.json()
-      homeworld.innerHTML = `<li>Homeworld: ${homeworldData.name}</li>`
+      homeworld.innerHTML = `Homeworld: ${homeworldData.name}`
       cache.species.homeworlds[homeworldLink] = homeworldData.name
     }
   } else {
-    homeworld.innerHTML = `<li>Homeworld: unknown</li>`
+    homeworld.innerHTML = "Homeworld: unknown"
   }
 
   planetsUL.append(homeworld);
 
   // language
   const language = document.createElement("li");
-  language.innerHTML = `<li>Language: ${speciesData.language}</li>`
+  language.innerHTML = `Language: ${speciesData.language}`
   planetsUL.append(language);
 
   charLoader.classList.remove('loader-visible')
@@ -171,7 +171,7 @@ async function renderVehicleDetails(char) {
   const charLoader = document.querySelector('.loader-white')
   charLoader.classList.add('loader-visible')
   if (char.vehicles.length === 0) {
-    planetsUL.innerHTML = '<li class="details-name">No Vehicle</li>'
+    planetsUL.innerHTML = '<li class="details-name">No vehicle</li>'
   }
   if (char.vehicles.length > 0) {
     let vehiclesLink = char.vehicles[0].split(":").join("s:")
@@ -187,23 +187,24 @@ async function renderVehicleDetails(char) {
 
     planetsUL.innerHTML = ''
     const name = document.createElement("li");
-    name.innerHTML = `<li class="details-name car-name">${vehiclesData.name}</li>`
+    name.classList.add('details-name')
+    name.innerHTML = vehiclesData.name
     planetsUL.append(name);
 
     const model = document.createElement("li");
-    model.innerHTML = `<li>Model: ${vehiclesData.model}</li>`
+    model.innerHTML = `Model: ${vehiclesData.model}`
     planetsUL.append(model);
 
     const crew = document.createElement("li");
-    crew.innerHTML = `<li>Crew: ${vehiclesData.crew}</li>`
+    crew.innerHTML = `Crew: ${vehiclesData.crew}`
     planetsUL.append(crew);
 
     const passengers = document.createElement("li");
-    passengers.innerHTML = `<li>Passengers: ${vehiclesData.passengers}</li>`
+    passengers.innerHTML = `Passengers: ${vehiclesData.passengers}`
     planetsUL.append(passengers);
 
     const cargo = document.createElement("li");
-    cargo.innerHTML = `<li>Cargo: ${vehiclesData.cargo_capacity}</li>`
+    cargo.innerHTML = `Cargo: ${vehiclesData.cargo_capacity}`
     planetsUL.append(cargo);
 
   }
@@ -221,7 +222,6 @@ async function renderStarshipDetails(char) {
   }
   if (char.starships.length > 0) {
     let starshipsLink = char.starships[0].split(":").join("s:");
-    console.log(starshipsLink);
     let starshipsData
     if (cache.starships[starshipsLink]) {
       starshipsData = cache.starships[starshipsLink]
@@ -234,31 +234,32 @@ async function renderStarshipDetails(char) {
 
     planetsUL.innerHTML = ''
     const name = document.createElement("li");
-    name.innerHTML = `<li class="details-name">${starshipsData.name}</li>`
+    name.classList.add('details-name')
+    name.innerHTML = starshipsData.name
     planetsUL.append(name);
 
     const model = document.createElement("li");
-    model.innerHTML = `<li>Model: ${starshipsData.model}</li>`
+    model.innerHTML = `Model: ${starshipsData.model}`
     planetsUL.append(model);
 
     const cost = document.createElement("li");
-    cost.innerHTML = `<li>Cost: ${starshipsData.cost_in_credits}</li>`
+    cost.innerHTML = `Cost: ${starshipsData.cost_in_credits}`
     planetsUL.append(cost);
 
     const length = document.createElement("li");
-    length.innerHTML = `<li>Length: ${starshipsData.length}</li>`
+    length.innerHTML = `Length: ${starshipsData.length}`
     planetsUL.append(length);
 
     const crew = document.createElement("li");
-    crew.innerHTML = `<li>Crew: ${starshipsData.crew}</li>`
+    crew.innerHTML = `Crew: ${starshipsData.crew}`
     planetsUL.append(crew);
 
     const hyperdrive = document.createElement("li");
-    hyperdrive.innerHTML = `<li>Hyperdrive: ${starshipsData.hyperdrive_rating}</li>`
+    hyperdrive.innerHTML = `Hyperdrive: ${starshipsData.hyperdrive_rating}`
     planetsUL.append(hyperdrive)
 
     const starshipClass = document.createElement("li");
-    starshipClass.innerHTML = `<li>Starship class: ${starshipsData.starship_class}</li>`
+    starshipClass.innerHTML = `Starship class: ${starshipsData.starship_class}`
     planetsUL.append(starshipClass)
   }
 
@@ -326,6 +327,7 @@ btnLeft.addEventListener('click', () => {
   currentPage.innerText = index;
   renderCharList()
 })
+
 function renderTabs(char) {
   function planetTabListener() {
     clearTabs()
